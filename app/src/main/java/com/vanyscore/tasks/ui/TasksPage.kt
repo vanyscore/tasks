@@ -52,10 +52,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.vanyscore.app.AppState
 import com.vanyscore.tasks.data.Task
 import com.vanyscore.tasks.ui.dialogs.EditTaskDialog
 import com.vanyscore.app.utils.DateUtils
-import com.vanyscore.tasks.viewmodel.MainViewModel
+import com.vanyscore.tasks.viewmodel.TaskViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -64,7 +65,7 @@ import java.util.Locale
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TasksPage() {
-    val viewModel = viewModel<MainViewModel>()
+    val viewModel = viewModel<TaskViewModel>()
     val state = viewModel.state.collectAsState().value
     val tasks = state.tasks
 
@@ -108,7 +109,9 @@ fun TasksPage() {
     ) {
         Column {
             DayPickerBar { date ->
-                viewModel.setDate(date)
+                AppState.updateState(AppState.source.value.copy(
+                    date = date
+                ))
             }
             if (tasks.isNotEmpty()) {
                 TasksList(
@@ -130,7 +133,7 @@ fun TasksList(
     tasks: List<Task>,
     onTaskEdit: (task: Task) -> Unit
 ) {
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: TaskViewModel = viewModel()
     val state = rememberLazyListState()
     return LazyColumn(
         state = state,
@@ -139,7 +142,7 @@ fun TasksList(
     ) {
         items(tasks.size, key = { index ->
             tasks[index].id
-        }) {index ->
+        }) { index ->
             val task = tasks[index]
             TaskItem(
                 task,
@@ -158,7 +161,7 @@ fun TasksList(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MonthAndYearPickerBar() {
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: TaskViewModel = viewModel()
     val yearFormat = remember {
         SimpleDateFormat("yyyy", Locale.getDefault())
     }
@@ -202,9 +205,12 @@ fun MonthAndYearPickerBar() {
                         val selectedDateInMillis = datePickerState.selectedDateMillis
                         if (selectedDateInMillis != null) {
                             dialogState.value = false
-                            viewModel.setDate(Calendar.getInstance().apply {
-                                timeInMillis = selectedDateInMillis
-                            }.time)
+                            val appState = AppState.source.collectAsState().value
+                            AppState.updateState(appState.copy(
+                                date = Calendar.getInstance().apply {
+                                    timeInMillis = selectedDateInMillis
+                                }.time
+                            ))
                         }
                     },
                 ) {
@@ -225,7 +231,7 @@ fun MonthAndYearPickerBar() {
 fun DayPickerBar(
     onDaySelected: (Date) -> Unit
 ) {
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: TaskViewModel = viewModel()
     val state = viewModel.state.collectAsState().value
     val currentDate = state.date
 
@@ -256,6 +262,9 @@ fun DayPickerBar(
     }
     if (initialIndex - 5 > 0) {
         initialIndex -= 5
+    }
+    if (initialIndex == -1) {
+        initialIndex = 0
     }
     val rowState = rememberLazyListState(initialFirstVisibleItemIndex = initialIndex)
     val lastDatePicked = remember {

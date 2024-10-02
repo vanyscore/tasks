@@ -26,7 +26,6 @@ fun MainScreen() {
     val selectedTab = remember {
         mutableIntStateOf(0)
     }
-    Log.d("debug", "current tab: ${selectedTab.intValue}")
     return Scaffold(
         topBar = {
             MonthAndYearPickerBar()

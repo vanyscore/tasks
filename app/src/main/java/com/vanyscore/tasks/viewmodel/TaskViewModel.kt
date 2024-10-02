@@ -2,17 +2,19 @@ package com.vanyscore.tasks.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vanyscore.app.AppState
 import com.vanyscore.app.Services
 import com.vanyscore.tasks.data.ITaskRepo
 import com.vanyscore.tasks.data.Task
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
 
-class MainViewModel(
+class TaskViewModel(
     private val repository: ITaskRepo = Services.tasksRepo
 ) : ViewModel() {
 
@@ -20,14 +22,27 @@ class MainViewModel(
     val state: StateFlow<MainViewState>
         get() = _state.asStateFlow()
 
+
     init {
-        refresh()
+        viewModelScope.launch {
+            AppState.source.collect { appState ->
+                _state.update {
+                    _state.value.copy(
+                        date = appState.date
+                    )
+                }
+                refresh()
+            }
+
+        }
     }
 
     private fun refresh() {
         viewModelScope.launch {
             val tasks = repository.getTasks(_state.value.date)
-            _state.value = state.value.copy(tasks = tasks)
+            _state.update {
+                state.value.copy(tasks = tasks)
+            }
         }
     }
 
@@ -60,16 +75,6 @@ class MainViewModel(
             refresh()
         }
     }
-
-    fun setDate(date: Date) {
-        _state.value = _state.value.copy(
-            date = date
-        )
-        viewModelScope.launch {
-            refresh()
-        }
-    }
-
 }
 
 data class MainViewState(
