@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vanyscore.app.AppState
 import com.vanyscore.app.Services
+import com.vanyscore.app.domain.Event
+import com.vanyscore.app.domain.EventBus
 import com.vanyscore.notes.data.INoteRepo
 import com.vanyscore.notes.domain.Note
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +30,13 @@ class NotesViewModel(
     private var _currentDate: Date? = null
 
     init {
+        viewModelScope.launch {
+            EventBus.eventsSource.collect {
+                if (it == Event.NOTES_UPDATED) {
+                    refresh()
+                }
+            }
+        }
         viewModelScope.launch {
             AppState.source.collect { appState ->
                 _currentDate = appState.date

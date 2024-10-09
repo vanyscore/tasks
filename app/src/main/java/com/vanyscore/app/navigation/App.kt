@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.vanyscore.app.AppState
 import com.vanyscore.app.MainScreen
 import com.vanyscore.notes.NoteScreen
 import com.vanyscore.notes.domain.Note
@@ -14,6 +15,7 @@ import com.vanyscore.notes.domain.Note
 @Composable
 fun App() {
     val navController = rememberNavController()
+    AppState.bindNavController(navController)
     return NavHost(
         navController = navController,
         startDestination = AppRoutes.MAIN

@@ -1,5 +1,6 @@
 package com.vanyscore.notes.data
 
+import com.vanyscore.app.domain.EventBus
 import com.vanyscore.notes.domain.Note
 import com.vanyscore.app.utils.DateUtils
 import java.util.Calendar
@@ -68,6 +69,7 @@ class NoteRepoInMemory : INoteRepo {
         if (updated == null) return false
         _notes.removeAt(index)
         _notes.add(index, updated)
+        EventBus.triggerNotesUpdated()
         return true
     }
 

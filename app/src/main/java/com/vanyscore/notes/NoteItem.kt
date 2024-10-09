@@ -2,6 +2,7 @@ package com.vanyscore.notes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -25,9 +26,10 @@ fun NoteItem(
     val formatter = remember { SimpleDateFormat("dd:MM:yyyy", Locale.getDefault()) }
     return Card(
         onClick = onClick,
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         ) {
             Text(note.title, style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(8.dp))
