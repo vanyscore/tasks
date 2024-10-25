@@ -8,3 +8,12 @@ data class Task(
     val isSuccess: Boolean,
     val date: Date,
 )
+
+fun Task.toRoom(): TaskRoom {
+    return TaskRoom(
+        id = id,
+        title = title,
+        isSuccess = isSuccess,
+        date = date,
+    )
+}

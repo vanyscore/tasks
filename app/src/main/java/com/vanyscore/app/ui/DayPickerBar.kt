@@ -56,8 +56,9 @@ fun DayPickerBar(
     val selectedIndex = days.indexOfFirst {
         DateUtils.isDateEqualsByDay(selectedDate, it)
     }
-    val scrollIndex = if (selectedIndex - 2 >= 0) selectedIndex - 2 else selectedIndex
-    LaunchedEffect(key1 = selectedDate) {
+    var scrollIndex = if (selectedIndex - 2 >= 2) selectedIndex - 2 else selectedIndex
+    if (scrollIndex < 0) scrollIndex = 0
+    LaunchedEffect(key1 = selectedDate, key2 = days) {
         rowState.animateScrollToItem(scrollIndex)
     }
     lastDatePicked.value = selectedDate

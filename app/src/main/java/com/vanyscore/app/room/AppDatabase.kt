@@ -1,0 +1,14 @@
+package com.vanyscore.app.room
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.vanyscore.app.room.converters.DateConverter
+import com.vanyscore.tasks.data.TaskRoom
+import com.vanyscore.tasks.data.TasksDao
+
+@Database(entities = [TaskRoom::class], version = 1)
+@TypeConverters(value = [DateConverter::class])
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun tasksDao(): TasksDao
+}
