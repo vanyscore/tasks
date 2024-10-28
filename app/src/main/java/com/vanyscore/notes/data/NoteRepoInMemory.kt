@@ -33,7 +33,8 @@ class NoteRepoInMemory : INoteRepo {
         EventBus.triggerNotesUpdated()
     }
 
-    override suspend fun getNotes(date: Date): List<Note> {
+    override suspend fun getNotes(fromDate: Date, endDate: Date): List<Note> {
+        // TODO: Доработать (from-to: Date).
         if (_notes.isEmpty()) {
             repeat(10) { index ->
                 _notes.add(
@@ -48,7 +49,7 @@ class NoteRepoInMemory : INoteRepo {
             }
         }
         return _notes.filter {
-            DateUtils.isDateEqualsByDay(it.created, date)
+            DateUtils.isDateEqualsByDay(it.created, fromDate)
         }
     }
 

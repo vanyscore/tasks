@@ -1,5 +1,6 @@
 package com.vanyscore.notes.viewmodel
 
+import android.provider.CalendarContract.CalendarEntity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vanyscore.app.AppState
@@ -54,7 +55,20 @@ class NotesViewModel(
                 )
             }
             val currentDate = this@NotesViewModel._currentDate ?: Calendar.getInstance().time
-            val notes = repo.getNotes(currentDate)
+            val calendar = Calendar.getInstance()
+            val startDate = calendar.apply {
+                time = currentDate
+                set(Calendar.HOUR, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+            }.time
+            val endDate = calendar.apply {
+                time = currentDate
+                set(Calendar.HOUR, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+            }.time
+            val notes = repo.getNotes(startDate, endDate)
             _state.update {
                 state.copy(
                     notes = notes,

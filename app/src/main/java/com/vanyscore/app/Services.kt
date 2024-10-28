@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase
 import com.vanyscore.app.room.AppDatabase
 import com.vanyscore.notes.data.INoteRepo
 import com.vanyscore.notes.data.NoteRepoInMemory
+import com.vanyscore.notes.data.NoteRepoRoom
 import com.vanyscore.tasks.data.ITaskRepo
 import com.vanyscore.tasks.data.TaskRepoInMemory
 import com.vanyscore.tasks.data.TaskRepoRoom
@@ -16,7 +17,9 @@ object Services {
             database.tasksDao()
         )
     }
-    val notesRepo: INoteRepo = NoteRepoInMemory()
+    val notesRepo: INoteRepo by lazy {
+        NoteRepoRoom(database.notesDao())
+    }
 
     private lateinit var database: AppDatabase
 
