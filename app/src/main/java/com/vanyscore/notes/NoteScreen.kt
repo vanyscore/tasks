@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -58,7 +59,7 @@ fun NoteScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Заметка")
+                    Text(stringResource(R.string.note))
                 },
                 navigationIcon = {
                     if (navController?.previousBackStackEntry != null) {
@@ -90,7 +91,7 @@ fun NoteScreen(
                     },
                     enabled = note.title.isNotEmpty() && note.description.isNotEmpty()
                 ) {
-                    Text("Сохранить")
+                    Text(stringResource(R.string.save))
                 }
             }
         }
@@ -113,7 +114,7 @@ fun NoteScreen(
                 note.title,
                 modifier = Modifier.fillMaxWidth(),
                 label = {
-                    Text("Заголовок")
+                    Text(stringResource(R.string.title))
                 },
                 onValueChange = { value ->
                     viewModel.updateNote(
@@ -130,7 +131,7 @@ fun NoteScreen(
                 note.description,
                 modifier = Modifier.fillMaxWidth(),
                 label = {
-                    Text("Описание")
+                    Text(stringResource(R.string.description))
                 },
                 onValueChange = { value ->
                     viewModel.updateNote(

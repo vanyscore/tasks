@@ -39,12 +39,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vanyscore.app.AppState
 import com.vanyscore.app.ui.DayPickerBar
 import com.vanyscore.app.ui.DayStatus
 import com.vanyscore.app.utils.DateUtils
+import com.vanyscore.tasks.R
 import com.vanyscore.tasks.data.Task
 import com.vanyscore.tasks.ui.dialogs.EditTaskDialog
 import com.vanyscore.tasks.viewmodel.TaskViewModel
@@ -181,7 +183,7 @@ fun EmptyTasks() {
                 modifier = Modifier.size(112.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Список задач пуст")
+            Text(stringResource(R.string.tasks_empty))
         }
     }
 }

@@ -12,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.vanyscore.notes.domain.Note
+import com.vanyscore.tasks.R
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -36,12 +38,12 @@ fun NoteItem(
             Text(note.description, style = MaterialTheme.typography.bodyMedium)
             Spacer(Modifier.height(8.dp))
             Text(
-                "Дата создания: ${formatter.format(note.created)}",
+                stringResource(R.string.created_date, formatter.format(note.created)),
                 style = MaterialTheme.typography.labelMedium,
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                "Дата редактирования: ${formatter.format(note.edited)}",
+                stringResource(R.string.edited_date, formatter.format(note.edited)),
                 style = MaterialTheme.typography.labelMedium,
             )
         }

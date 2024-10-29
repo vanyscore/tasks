@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">tasks</string>
+    <string name="note">Заметка</string>
+    <string name="notes">Заметки</string>
+    <string name="tasks">Задачи"</string>
+    <string name="create_task">Создать задачу</string>
+    <string name="edit_task">Редактировать задачу</string>
+    <string name="tasks_empty">Список задач пуст"</string>
+    <string name="created_date">Дата создания: %1$s</string>
+    <string name="edited_date">Дата редактирования: %1$s</string>
+    <string name="save">Сохранить</string>
+    <string name="title">Заголовок</string>
+    <string name="description">Описание</string>
+    <string name="create">Создать</string>
+    <string name="apply">Применить</string>
 </resources>

@@ -15,10 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.vanyscore.app.ui.DatePickerBar
 import com.vanyscore.notes.NotesPage
 import com.vanyscore.notes.domain.Note
+import com.vanyscore.tasks.R
 import com.vanyscore.tasks.ui.TasksPage
 
 @Composable
@@ -55,14 +57,14 @@ fun MainScreen(
                 ) {
                     Tab(
                         selectedTab.intValue == 0,
-                        text = { Text("Заметки") },
+                        text = { Text(stringResource(R.string.notes)) },
                         onClick = {
                             selectedTab.intValue = 0
                         }
                     )
                     Tab(
                         selectedTab.intValue == 1,
-                        text = { Text("Задачи") },
+                        text = { Text(stringResource(R.string.tasks)) },
                         onClick = {
                             selectedTab.intValue = 1
                         }

@@ -16,8 +16,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.vanyscore.tasks.R
 import com.vanyscore.tasks.data.Task
 import java.util.Calendar
 import java.util.Date
@@ -31,8 +33,8 @@ fun EditTaskDialog(
 ) {
     val isCreate = task == null
     // TODO: Добавить строковые ресурсы
-    val dialogTitle = if (isCreate) "Создать задачу" else "Редактировать задачу"
-    val successTitle = if (isCreate) "Создать" else "Применить"
+    val dialogTitle = if (isCreate) stringResource(R.string.create_task) else stringResource(R.string.edit_task)
+    val successTitle = if (isCreate) stringResource(R.string.create) else stringResource(R.string.apply)
     val textValue = remember {
         mutableStateOf(task?.title ?: "")
     }
