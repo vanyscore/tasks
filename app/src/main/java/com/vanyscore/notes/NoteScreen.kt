@@ -159,16 +159,10 @@ fun NoteScreen(
             }
             item {
                 AttachmentsControl(
-                    attachments = listOf(
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                        Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpmYrXnE51Hn7cTHaoJfbIZwZMF8chYRnB6A&s"),
-                    )
+                    attachments = note.images,
+                    onAttachmentAdd = { uri ->
+                        viewModel.attachImage(uri)
+                    }
                 )
             }
         }

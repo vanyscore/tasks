@@ -1,5 +1,6 @@
 package com.vanyscore.notes.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -85,6 +86,19 @@ class NoteViewModel(
                     )
                 }
             }
+        }
+    }
+
+    fun attachImage(uri: Uri) {
+        val note = _state.value.note
+        _state.update {
+            it.copy(
+                note = it.note.copy(
+                    images = note.images.toMutableList().apply {
+                        add(uri)
+                    }.toList()
+                )
+            )
         }
     }
 }
