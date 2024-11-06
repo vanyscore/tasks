@@ -89,6 +89,7 @@ class NoteViewModel(
         }
     }
 
+    // TODO: Attach via DB and save to local (repo).
     fun attachImage(uri: Uri) {
         val note = _state.value.note
         _state.update {
@@ -96,6 +97,20 @@ class NoteViewModel(
                 note = it.note.copy(
                     images = note.images.toMutableList().apply {
                         add(uri)
+                    }.toList()
+                )
+            )
+        }
+    }
+
+    // TODO: Remove via DB and remove from local (repo).
+    fun removeAttachment(uri: Uri) {
+        val note = _state.value.note
+        _state.update {
+            it.copy(
+                note = it.note.copy(
+                    images = note.images.toMutableList().apply {
+                        remove(uri)
                     }.toList()
                 )
             )

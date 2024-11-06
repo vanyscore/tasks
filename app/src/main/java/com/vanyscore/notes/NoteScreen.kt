@@ -162,6 +162,9 @@ fun NoteScreen(
                     attachments = note.images,
                     onAttachmentAdd = { uri ->
                         viewModel.attachImage(uri)
+                    },
+                    onAttachmentRemove = { uri ->
+                        viewModel.removeAttachment(uri)
                     }
                 )
             }
