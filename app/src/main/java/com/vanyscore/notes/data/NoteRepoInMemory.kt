@@ -33,7 +33,7 @@ class NoteRepoInMemory : INoteRepo {
         EventBus.triggerNotesUpdated()
     }
 
-    override suspend fun getNotes(fromDate: Date, endDate: Date): List<Note> {
+    override suspend fun getNotes(fromDate: Date, toDate: Date): List<Note> {
         // TODO: Доработать (from-to: Date).
         if (_notes.isEmpty()) {
             repeat(10) { index ->

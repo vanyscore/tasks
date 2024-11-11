@@ -1,5 +1,6 @@
 package com.vanyscore.notes.data
 
+import android.net.Uri
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Entity
@@ -24,13 +25,14 @@ data class NoteRoom (
     val edited: Date
 )
 
-fun NoteRoom.toDomain(): Note {
+fun NoteRoom.toDomain(images: List<Uri> = emptyList()): Note {
     return Note(
         id = id,
         title = title,
         description = description,
         created = created,
-        edited = edited
+        edited = edited,
+        images = images
     )
 }
 
@@ -44,10 +46,18 @@ fun Note.toRoom(): NoteRoom {
     )
 }
 
+@Entity(tableName = "note_images")
+data class NoteImage(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
+    val noteId: Int,
+    val path: String
+)
+
 @Dao
 interface NotesDao {
     @Insert
-    suspend fun createNote(note: NoteRoom)
+    suspend fun createNote(note: NoteRoom): Long
     @Query("SELECT * FROM notes WHERE created > (:fromDate) & created < (:endDate)")
     suspend fun getNotes(fromDate: Date, endDate: Date): List<NoteRoom>
     @Query("SELECT * FROM notes WHERE id = (:id)")
@@ -56,4 +66,26 @@ interface NotesDao {
     suspend fun updateNote(note: NoteRoom)
     @Delete
     suspend fun deleteNote(note: NoteRoom)
+    @Insert
+    suspend fun createImage(noteImage: NoteImage)
+    @Query("SELECT * FROM note_images WHERE noteId = (:noteId)")
+    suspend fun getImagesByNote(noteId: Int): List<NoteImage>
+    @Query("SELECT * FROM note_images WHERE path = (:path)")
+    suspend fun getImageByPath(path: String): List<NoteImage>
+    @Delete
+    suspend fun deleteImage(noteImage: NoteImage)
+}
+
+suspend fun List<NoteRoom>.withImages(dao: NotesDao): List<Note> {
+    return mapNotNull {
+        val noteId = it.id
+        if (noteId != null) {
+            val images = dao.getImagesByNote(noteId).map { image ->
+                Uri.parse(image.path)
+            }
+            it.toDomain(images = images)
+        } else {
+            null
+        }
+    }
 }

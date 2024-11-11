@@ -161,10 +161,23 @@ fun NoteScreen(
                 AttachmentsControl(
                     attachments = note.images,
                     onAttachmentAdd = { uri ->
-                        viewModel.attachImage(uri)
+                        viewModel.updateNote(
+                            copy = note.copy(
+                                // TODO: Save uri file to local storage.
+                                images = note.images.toMutableList().apply {
+                                    add(uri)
+                                }
+                            )
+                        )
                     },
                     onAttachmentRemove = { uri ->
-                        viewModel.removeAttachment(uri)
+                        viewModel.updateNote(
+                            copy = note.copy(
+                                images = note.images.toMutableList().apply {
+                                    remove(uri)
+                                }
+                            )
+                        )
                     }
                 )
             }

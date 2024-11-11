@@ -1,5 +1,6 @@
 package com.vanyscore.notes.data
 
+import android.net.Uri
 import com.vanyscore.notes.domain.Note
 import java.util.Date
 

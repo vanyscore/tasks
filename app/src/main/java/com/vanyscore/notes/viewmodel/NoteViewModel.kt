@@ -1,7 +1,5 @@
 package com.vanyscore.notes.viewmodel
 
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vanyscore.app.Services
@@ -30,10 +28,8 @@ class NoteViewModel(
     ))
     val state = _state.asStateFlow()
 
-
-    fun applyNoteId(noteId: Int) {
-        this.noteId = noteId
-
+    private fun refresh() {
+        val noteId = this.noteId ?: return
         viewModelScope.launch {
             val note = repo.getNote(noteId) ?: return@launch
             _state.update {
@@ -42,6 +38,13 @@ class NoteViewModel(
                 )
             }
         }
+    }
+
+
+    fun applyNoteId(noteId: Int) {
+        this.noteId = noteId
+
+        refresh()
     }
 
     fun updateNote(copy: Note) {
@@ -86,34 +89,6 @@ class NoteViewModel(
                     )
                 }
             }
-        }
-    }
-
-    // TODO: Attach via DB and save to local (repo).
-    fun attachImage(uri: Uri) {
-        val note = _state.value.note
-        _state.update {
-            it.copy(
-                note = it.note.copy(
-                    images = note.images.toMutableList().apply {
-                        add(uri)
-                    }.toList()
-                )
-            )
-        }
-    }
-
-    // TODO: Remove via DB and remove from local (repo).
-    fun removeAttachment(uri: Uri) {
-        val note = _state.value.note
-        _state.update {
-            it.copy(
-                note = it.note.copy(
-                    images = note.images.toMutableList().apply {
-                        remove(uri)
-                    }.toList()
-                )
-            )
         }
     }
 }
