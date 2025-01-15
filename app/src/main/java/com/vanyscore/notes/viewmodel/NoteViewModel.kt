@@ -1,8 +1,13 @@
 package com.vanyscore.notes.viewmodel
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vanyscore.app.Services
+import com.vanyscore.app.utils.FileUtil
+import com.vanyscore.app.utils.Logger
 import com.vanyscore.notes.data.INoteRepo
 import com.vanyscore.notes.domain.Note
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
+import java.util.UUID
 
 data class NoteState(
     val note: Note,
@@ -55,6 +61,20 @@ class NoteViewModel(
                 )
             }
         }
+    }
+
+    fun attachment(context: Context, uri: Uri, note: Note) {
+        // save uri to local
+        val attachmentUUID = UUID.randomUUID()
+        val attachmentFileExtension = FileUtil.getFileExtensionFromUri(context, uri)
+        val fileName = "${attachmentUUID}.$attachmentFileExtension"
+        val savedFileUri = FileUtil.saveFileToInternalStorage(context, uri, fileName) ?: return
+        Logger.log("Save attachment uri: $savedFileUri")
+        updateNote(note.copy(
+            images = note.images.toMutableList().apply {
+                add(savedFileUri)
+            }
+        ))
     }
 
     fun saveNote(forDate: Date) {

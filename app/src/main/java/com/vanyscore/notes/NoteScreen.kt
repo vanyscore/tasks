@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,7 @@ fun NoteScreen(
     val isViewModelInit = remember {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
     val viewModel = viewModel<NoteViewModel>().apply {
         if (!isViewModelInit.value && noteId != null) {
             applyNoteId(noteId)
@@ -161,13 +163,10 @@ fun NoteScreen(
                 AttachmentsControl(
                     attachments = note.images,
                     onAttachmentAdd = { uri ->
-                        viewModel.updateNote(
-                            copy = note.copy(
-                                // TODO: Save uri file to local storage.
-                                images = note.images.toMutableList().apply {
-                                    add(uri)
-                                }
-                            )
+                        viewModel.attachment(
+                            context = context,
+                            uri = uri,
+                            note = note,
                         )
                     },
                     onAttachmentRemove = { uri ->

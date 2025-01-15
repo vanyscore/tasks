@@ -24,13 +24,13 @@ object Services {
     private lateinit var database: AppDatabase
 
     fun bindContext(appContext: Context) {
-        database = Room.inMemoryDatabaseBuilder(
-            context = appContext,
-            AppDatabase::class.java,
-        ).build()
-//        database = Room.databaseBuilder(
+//        database = Room.inMemoryDatabaseBuilder(
 //            context = appContext,
-//            AppDatabase::class.java, "tn_database"
+//            AppDatabase::class.java,
 //        ).build()
+        database = Room.databaseBuilder(
+            context = appContext,
+            AppDatabase::class.java, "tn_database"
+        ).build()
     }
 }
