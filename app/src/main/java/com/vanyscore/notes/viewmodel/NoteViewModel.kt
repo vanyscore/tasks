@@ -13,7 +13,10 @@ import com.vanyscore.notes.domain.Note
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.internal.SynchronizedObject
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.util.Calendar
 import java.util.Date
 import java.util.UUID
@@ -63,18 +66,38 @@ class NoteViewModel(
         }
     }
 
-    fun attachment(context: Context, uri: Uri, note: Note) {
-        // save uri to local
-        val attachmentUUID = UUID.randomUUID()
-        val attachmentFileExtension = FileUtil.getFileExtensionFromUri(context, uri)
-        val fileName = "${attachmentUUID}.$attachmentFileExtension"
-        val savedFileUri = FileUtil.saveFileToInternalStorage(context, uri, fileName) ?: return
-        Logger.log("Save attachment uri: $savedFileUri")
-        updateNote(note.copy(
-            images = note.images.toMutableList().apply {
-                add(savedFileUri)
+    fun attachAttachment(context: Context, uri: Uri, note: Note) {
+        viewModelScope.launch {
+            // TODO: Move action to repository.
+            val attachmentUUID = UUID.randomUUID()
+            val attachmentFileExtension = FileUtil.getFileExtensionFromUri(context, uri)
+            val fileName = "${attachmentUUID}.$attachmentFileExtension"
+            // TODO: Save image to temporary storage and move it to another folder on save.
+            val savedFileUri = FileUtil.saveFileToInternalStorage(context, uri, fileName) ?: return@launch
+            updateNote(note.copy(
+                images = note.images.toMutableList().apply {
+                    add(savedFileUri)
+                }
+            ))
+        }
+    }
+
+    fun removeAttachment(uri: Uri) {
+        viewModelScope.launch {
+            val state = _state.value
+            val note = state.note
+            val images = note.images
+            val updatedImages = images.toMutableList().apply {
+                remove(uri)
             }
-        ))
+            _state.update {
+                state.copy(
+                    note = note.copy(
+                        images = updatedImages
+                    )
+                )
+            }
+        }
     }
 
     fun saveNote(forDate: Date) {

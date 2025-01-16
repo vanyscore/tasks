@@ -1,6 +1,7 @@
 package com.vanyscore.notes
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vanyscore.app.AppState
 import com.vanyscore.app.ui.AttachmentsControl
+import com.vanyscore.app.utils.Logger
 import com.vanyscore.notes.viewmodel.NoteViewModel
 import com.vanyscore.tasks.R
 
@@ -163,20 +165,14 @@ fun NoteScreen(
                 AttachmentsControl(
                     attachments = note.images,
                     onAttachmentAdd = { uri ->
-                        viewModel.attachment(
+                        viewModel.attachAttachment(
                             context = context,
                             uri = uri,
                             note = note,
                         )
                     },
                     onAttachmentRemove = { uri ->
-                        viewModel.updateNote(
-                            copy = note.copy(
-                                images = note.images.toMutableList().apply {
-                                    remove(uri)
-                                }
-                            )
-                        )
+                        viewModel.removeAttachment(uri)
                     }
                 )
             }

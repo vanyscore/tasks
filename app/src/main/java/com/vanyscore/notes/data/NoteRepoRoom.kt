@@ -1,7 +1,9 @@
 package com.vanyscore.notes.data
 
+import androidx.core.net.toUri
 import com.vanyscore.app.domain.EventBus
 import com.vanyscore.app.utils.DateUtils
+import com.vanyscore.app.utils.FileUtil
 import com.vanyscore.notes.domain.Note
 import java.util.Date
 
@@ -38,14 +40,12 @@ class NoteRepoRoom(
         val newImages = note.images
         if (newImages.size > oldImages.size) {
             val newPaths = mutableListOf<String>()
-            // TODO: Can save only unique uri. (fix)
             newImages.forEach {
                 if (!oldImages.contains(it)) {
                     newPaths.add(it.toString())
                 }
             }
             newPaths.forEach { path ->
-                // TODO: Save uri file to local storage.
                 dao.createImage(NoteImage(null, note.id, path))
             }
 
@@ -59,6 +59,7 @@ class NoteRepoRoom(
             pathsForRemove.mapNotNull {
                 dao.getImageByPath(it).firstOrNull()
             }.forEach {
+                FileUtil.removeFileByUri(it.path.toUri())
                 dao.deleteImage(it)
             }
         }
@@ -71,6 +72,7 @@ class NoteRepoRoom(
         val noteId = note.id ?: return false
         val images = dao.getImagesByNote(noteId)
         images.forEach {
+            FileUtil.removeFileByUri(it.path.toUri())
             dao.deleteImage(it)
         }
         dao.deleteNote(note.toRoom())
