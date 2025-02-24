@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -32,21 +33,53 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val YellowColorScheme = lightColorScheme(
+    primary = Amber500,
+    onPrimary = DarkAmber,
+    primaryContainer = Amber100,
+    onPrimaryContainer = DeepBrown,
+    secondary = Brown500,
+    onSecondary = White,
+    secondaryContainer = Brown200,
+    onSecondaryContainer = Color(0xFF3E2723),
+    tertiary = Orange500,
+    onTertiary = Color(0xFF3E2723),
+    tertiaryContainer = Orange200,
+    onTertiaryContainer = Color(0xFF4E342E),
+    background = LightYellow,
+    onBackground = DeepBrown,
+    surface = White,
+    onSurface = Color(0xFF4E342E),
+    error = ErrorRed,
+    onError = White,
+    outline = MutedBrown,
+    surfaceVariant = Color(0xFFEAEAEA),
+    inverseOnSurface = White,
+    onErrorContainer = White,
+    onSurfaceVariant = DeepBrown,
+    errorContainer = White,
+    inversePrimary = Color(0xFFFFA000),
+    inverseSurface = Color(0xFFEEEEEE),
+    outlineVariant = MutedBrown,
+    scrim = Color(0x99000000),
+    surfaceTint = Amber500,
+)
+
+enum class AppTheme {
+    LIGHT,
+    DARK,
+    YELLOW_LIGHT,
+}
+
 @Composable
 fun TasksTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    theme: AppTheme = AppTheme.LIGHT,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colorScheme = when(theme) {
+        AppTheme.DARK -> DarkColorScheme
+        AppTheme.LIGHT -> LightColorScheme
+        AppTheme.YELLOW_LIGHT -> YellowColorScheme
     }
 
     MaterialTheme(

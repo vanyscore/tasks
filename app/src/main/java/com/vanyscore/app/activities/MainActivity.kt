@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.vanyscore.app.navigation.App
+import com.vanyscore.app.theme.AppTheme
 import com.vanyscore.app.theme.TasksTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,7 +15,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TasksTheme {
+            TasksTheme(
+                theme = AppTheme.YELLOW_LIGHT
+            ) {
                 App()
             }
         }
