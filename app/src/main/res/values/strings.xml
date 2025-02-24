@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">tasks</string>
+    <string name="app_name">TrackIt</string>
     <string name="note">Заметка</string>
     <string name="notes">Заметки</string>
     <string name="tasks">Задачи"</string>

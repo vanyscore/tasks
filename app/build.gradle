@@ -10,7 +10,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.vanyscore.tasks"
+        applicationId "com.vanyscore.trackit"
         minSdk 24
         targetSdk 34
         versionCode 1
