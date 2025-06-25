@@ -35,6 +35,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vanyscore.app.AppState
+import com.vanyscore.app.navigation.openSettings
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -87,7 +88,9 @@ fun SettingsButton(isVisible: Boolean = true) {
     IconButton(
         modifier = Modifier.alpha(if (isVisible) 1f else 0f),
         onClick = {
-            // TODO(vanyscore): Make theme pick dialog.
+            val appState = AppState.source.value
+            val navController = appState.navController
+            navController?.openSettings()
         }
     ) {
         Icon(

@@ -14,4 +14,6 @@
     <string name="create">Создать</string>
     <string name="apply">Применить</string>
     <string name="attachments">Вложения</string>
+    <string name="settings">Настройки</string>
+    <string name="theme_setting">Тема</string>
 </resources>

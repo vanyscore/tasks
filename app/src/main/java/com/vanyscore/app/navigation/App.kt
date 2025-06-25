@@ -11,6 +11,7 @@ import com.vanyscore.app.AppState
 import com.vanyscore.app.MainScreen
 import com.vanyscore.notes.NoteScreen
 import com.vanyscore.notes.domain.Note
+import com.vanyscore.settings.SettingsScreen
 
 @Composable
 fun App() {
@@ -36,7 +37,14 @@ fun App() {
             val noteId = it.arguments?.getInt(AppRouteArgs.NOTE_ID)
             NoteScreen(if (noteId == -1) null else noteId)
         }
+        composable(AppRoutes.SETTINGS) {
+            SettingsScreen()
+        }
     }
+}
+
+fun NavController.openSettings() {
+    navigate(AppRoutes.SETTINGS)
 }
 
 fun NavController.openNote(note: Note?) {
