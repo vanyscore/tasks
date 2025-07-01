@@ -35,6 +35,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vanyscore.app.AppState
+import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.navigation.openSettings
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -85,12 +86,11 @@ fun DatePickerBar() {
 
 @Composable
 fun SettingsButton(isVisible: Boolean = true) {
+    val navController = LocalNavController.current
     IconButton(
         modifier = Modifier.alpha(if (isVisible) 1f else 0f),
         onClick = {
-            val appState = AppState.source.value
-            val navController = appState.navController
-            navController?.openSettings()
+            navController.openSettings()
         }
     ) {
         Icon(

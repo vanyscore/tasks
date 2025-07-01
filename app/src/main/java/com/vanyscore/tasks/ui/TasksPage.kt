@@ -42,7 +42,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vanyscore.app.AppState
 import com.vanyscore.app.ui.DayPickerBar
 import com.vanyscore.app.ui.DayStatus

@@ -33,8 +33,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vanyscore.app.AppState
+import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.ui.AttachmentsControl
 import com.vanyscore.app.ui.noIndicationClickable
 import com.vanyscore.notes.viewmodel.NoteViewModel
@@ -46,7 +46,7 @@ fun NoteScreen(
     noteId: Int?,
 ) {
     val appState = AppState.source.collectAsState()
-    val navController = appState.value.navController
+    val navController = LocalNavController.current
     val isViewModelInit = remember {
         mutableStateOf(false)
     }
@@ -73,7 +73,7 @@ fun NoteScreen(
                     Text(stringResource(R.string.note))
                 },
                 navigationIcon = {
-                    if (navController?.previousBackStackEntry != null) {
+                    if (navController.previousBackStackEntry != null) {
                         IconButton(onClick = {
                             navController.navigateUp()
                         }) {

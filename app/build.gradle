@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace 'com.vanyscore.tasks'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.vanyscore.trackit"

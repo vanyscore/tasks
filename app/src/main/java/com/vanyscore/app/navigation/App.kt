@@ -1,44 +1,50 @@
 package com.vanyscore.app.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.vanyscore.app.AppState
 import com.vanyscore.app.MainScreen
 import com.vanyscore.notes.NoteScreen
 import com.vanyscore.notes.domain.Note
 import com.vanyscore.settings.SettingsScreen
 
+var LocalNavController = staticCompositionLocalOf<NavHostController> {
+    error("No navController provided")
+}
+
 @Composable
 fun App() {
     val navController = rememberNavController()
-    AppState.bindNavController(navController)
-    return NavHost(
-        navController = navController,
-        startDestination = AppRoutes.MAIN
+
+    CompositionLocalProvider(
+        LocalNavController provides navController
     ) {
-        composable(AppRoutes.MAIN) {
-            MainScreen(
-                openNote = { note: Note? ->
-                    navController.openNote(note)
-                }
-            )
-        }
-        composable(AppRoutes.NOTE, listOf(
-            navArgument(AppRouteArgs.NOTE_ID) {
-                type = NavType.IntType
-                defaultValue = -1
+        NavHost(
+            navController = LocalNavController.current,
+            startDestination = AppRoutes.MAIN
+        ) {
+            composable(AppRoutes.MAIN) {
+                MainScreen()
             }
-        )) {
-            val noteId = it.arguments?.getInt(AppRouteArgs.NOTE_ID)
-            NoteScreen(if (noteId == -1) null else noteId)
-        }
-        composable(AppRoutes.SETTINGS) {
-            SettingsScreen()
+            composable(AppRoutes.NOTE, listOf(
+                navArgument(AppRouteArgs.NOTE_ID) {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )) {
+                val noteId = it.arguments?.getInt(AppRouteArgs.NOTE_ID)
+                NoteScreen(if (noteId == -1) null else noteId)
+            }
+            composable(AppRoutes.SETTINGS) {
+                SettingsScreen()
+            }
         }
     }
 }
