@@ -1,21 +1,37 @@
 package com.vanyscore.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.vanyscore.app.composes.BackButton
+import com.vanyscore.app.navigation.LocalNavController
+import com.vanyscore.app.ui.noIndicationClickable
 import com.vanyscore.tasks.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen() {
+    val navController = LocalNavController.current
     return Scaffold(
         topBar = {
             TopAppBar(
@@ -23,6 +39,14 @@ fun SettingsScreen() {
                     Text(
                         text = stringResource(R.string.settings)
                     )
+                },
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                navigationIcon = {
+                    BackButton {
+                        navController.navigateUp()
+                    }
                 }
             )
         }
@@ -30,7 +54,7 @@ fun SettingsScreen() {
         Column(
             modifier = Modifier.padding(padding)
         ) {
-            SettingsItem("Тема") { }
+            SettingsItem("Выбор темы") { }
         }
     }
 }
@@ -40,11 +64,19 @@ private fun SettingsItem(
     title: String,
     onClick: () -> Unit
 ) {
-    return Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .clickable(onClick = onClick)
-    ) {
-        Text(text = title)
+    return Column {
+        Box(
+            modifier = Modifier
+                .padding(16.dp)
+                .noIndicationClickable(onClick = onClick)
+                .fillMaxWidth()
+        ) {
+            Text(text = title, style = TextStyle(
+                fontSize = 18.sp
+            ))
+        }
+        Divider(
+            thickness = 1.dp,
+        )
     }
 }

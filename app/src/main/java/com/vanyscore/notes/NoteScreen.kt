@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vanyscore.app.AppState
+import com.vanyscore.app.composes.BackButton
 import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.ui.AttachmentsControl
 import com.vanyscore.app.ui.noIndicationClickable
@@ -72,12 +74,13 @@ fun NoteScreen(
                 title = {
                     Text(stringResource(R.string.note))
                 },
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
                 navigationIcon = {
                     if (navController.previousBackStackEntry != null) {
-                        IconButton(onClick = {
+                        BackButton {
                             navController.navigateUp()
-                        }) {
-                            Icon(Icons.Default.ArrowBack, "back")
                         }
                     }
                 },

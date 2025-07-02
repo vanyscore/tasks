@@ -135,7 +135,7 @@ fun DatePickerDialogBuild(dialogState: MutableState<Boolean>) {
 fun DateControl() {
     val state = AppState.source.collectAsState()
     val currentDate = state.value.date
-    val textStyle = TextStyle(fontSize = 16.sp, color = Color.White)
+    val textStyle = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
     val yearFormat = remember {
         SimpleDateFormat("yyyy", Locale.getDefault())
     }
@@ -170,7 +170,7 @@ private fun PrevDateButton() {
         },
     ) {
         Icon(
-            Icons.Default.KeyboardArrowLeft, "Left", tint = Color.White
+            Icons.Default.KeyboardArrowLeft, "Left", tint = MaterialTheme.colorScheme.onPrimary
         )
     }
 }
@@ -191,7 +191,7 @@ private fun NextDateButton() {
         }
     ) {
         Icon(
-            Icons.Default.KeyboardArrowRight, "Right", tint = Color.White
+            Icons.Default.KeyboardArrowRight, "Right", tint = MaterialTheme.colorScheme.onPrimary
         )
     }
 }

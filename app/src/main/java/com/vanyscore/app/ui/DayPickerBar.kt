@@ -117,14 +117,14 @@ fun DayItem(
             Text(
                 calendar.get(Calendar.DAY_OF_MONTH).toString(),
                 style = TextStyle(
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 dateFormat.format(date),
                 style = TextStyle(
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
