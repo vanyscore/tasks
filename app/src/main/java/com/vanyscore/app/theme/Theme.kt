@@ -6,28 +6,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
-
+// Предположим, что вы объявили эти цвета в другом файле (Color.kt)
 private val YellowColorScheme = lightColorScheme(
     primary = Amber500,
     onPrimary = DarkAmber,
@@ -60,21 +39,334 @@ private val YellowColorScheme = lightColorScheme(
     surfaceTint = Amber500,
 )
 
+private val YellowDarkColorScheme = darkColorScheme(
+    primary = Amber200,
+    onPrimary = DeepBrown,
+    primaryContainer = Amber700,
+    onPrimaryContainer = White,
+    secondary = Brown200,
+    onSecondary = DeepBrown,
+    secondaryContainer = Brown700,
+    onSecondaryContainer = White,
+    tertiary = Orange200,
+    onTertiary = DeepBrown,
+    tertiaryContainer = Orange700,
+    onTertiaryContainer = White,
+    background = DarkAmber,
+    onBackground = White,
+    surface = Color(0xFF2C2C2C),
+    onSurface = White,
+    error = ErrorRedDark,
+    onError = White,
+    outline = MutedBrown,
+    surfaceVariant = Color(0xFF444444),
+    inverseOnSurface = DeepBrown,
+    onErrorContainer = White,
+    onSurfaceVariant = Amber100,
+    errorContainer = ErrorRedLight,
+    inversePrimary = Amber300,
+    inverseSurface = Color(0xFF222222),
+    outlineVariant = Amber200,
+    scrim = Color(0x99000000),
+    surfaceTint = Amber200,
+)
+
+private val GreenLightColorScheme = lightColorScheme(
+    primary = Green500,
+    onPrimary = White,
+    primaryContainer = Green100,
+    onPrimaryContainer = Color(0xFF1B5E20),
+    secondary = Teal500,
+    onSecondary = White,
+    secondaryContainer = Teal200,
+    onSecondaryContainer = Color(0xFF004D40),
+    tertiary = Lime500,
+    onTertiary = Black,
+    tertiaryContainer = Lime200,
+    onTertiaryContainer = Black,
+    background = Color(0xFFE8F5E9),
+    onBackground = Color(0xFF1B5E20),
+    surface = White,
+    onSurface = Color(0xFF2E7D32),
+    error = ErrorRed,
+    onError = White,
+    outline = Color(0xFF81C784),
+    surfaceVariant = Color(0xFFD0F0C0),
+    inverseOnSurface = White,
+    onErrorContainer = White,
+    onSurfaceVariant = Color(0xFF1B5E20),
+    errorContainer = Color(0xFFFFCDD2),
+    inversePrimary = Green700,
+    inverseSurface = Color(0xFFEEEEEE),
+    outlineVariant = Color(0xFFA5D6A7),
+    scrim = Color(0x99000000),
+    surfaceTint = Green500,
+)
+
+private val GreenDarkColorScheme = darkColorScheme(
+    primary = Green200,
+    onPrimary = Color(0xFF1B5E20),
+    primaryContainer = Green700,
+    onPrimaryContainer = White,
+    secondary = Teal200,
+    onSecondary = Black,
+    secondaryContainer = Teal700,
+    onSecondaryContainer = White,
+    tertiary = Lime200,
+    onTertiary = Black,
+    tertiaryContainer = Lime700,
+    onTertiaryContainer = White,
+    background = Color(0xFF1B5E20),
+    onBackground = White,
+    surface = Color(0xFF263238),
+    onSurface = White,
+    error = ErrorRedDark,
+    onError = White,
+    outline = Color(0xFF4CAF50),
+    surfaceVariant = Color(0xFF37474F),
+    inverseOnSurface = Color(0xFF1B5E20),
+    onErrorContainer = White,
+    onSurfaceVariant = Color(0xFF81C784),
+    errorContainer = ErrorRedLight,
+    inversePrimary = Green300,
+    inverseSurface = Color(0xFF212121),
+    outlineVariant = Green300,
+    scrim = Color(0x99000000),
+    surfaceTint = Green200,
+)
+
+// 🔴 RED LIGHT THEME
+private val RedLightColorScheme = lightColorScheme(
+    primary = Red500,
+    onPrimary = White,
+    primaryContainer = Red100,
+    onPrimaryContainer = Red700,
+    secondary = Pink200,
+    onSecondary = Black,
+    secondaryContainer = Pink100,
+    onSecondaryContainer = Black,
+    tertiary = Orange500,
+    onTertiary = White,
+    tertiaryContainer = Orange200,
+    onTertiaryContainer = Black,
+    background = Color(0xFFFFEBEE),
+    onBackground = Red700,
+    surface = White,
+    onSurface = Red700,
+    error = ErrorRed,
+    onError = White,
+    outline = Red300,
+    surfaceVariant = Red100,
+    inverseOnSurface = White,
+    onErrorContainer = White,
+    onSurfaceVariant = Red700,
+    errorContainer = Red100,
+    inversePrimary = Red300,
+    inverseSurface = Color(0xFFFAFAFA),
+    outlineVariant = Red200,
+    scrim = Color(0x99000000),
+    surfaceTint = Red500,
+)
+
+// 🔴 RED DARK THEME
+private val RedDarkColorScheme = darkColorScheme(
+    primary = Red200,
+    onPrimary = Black,
+    primaryContainer = Red700,
+    onPrimaryContainer = White,
+    secondary = Pink200,
+    onSecondary = Black,
+    secondaryContainer = Pink700,
+    onSecondaryContainer = White,
+    tertiary = Orange200,
+    onTertiary = Black,
+    tertiaryContainer = Orange700,
+    onTertiaryContainer = White,
+    background = Color(0xFF311B1B),
+    onBackground = White,
+    surface = Color(0xFF2C1A1A),
+    onSurface = White,
+    error = ErrorRedDark,
+    onError = White,
+    outline = Red300,
+    surfaceVariant = Red200,
+    inverseOnSurface = Red100,
+    onErrorContainer = White,
+    onSurfaceVariant = Red100,
+    errorContainer = Red100,
+    inversePrimary = Red300,
+    inverseSurface = Color(0xFF212121),
+    outlineVariant = Red200,
+    scrim = Color(0x99000000),
+    surfaceTint = Red200,
+)
+
+
+// 🔵 BLUE LIGHT THEME
+private val BlueLightColorScheme = lightColorScheme(
+    primary = Blue500,
+    onPrimary = White,
+    primaryContainer = Blue100,
+    onPrimaryContainer = Blue700,
+    secondary = Teal500,
+    onSecondary = White,
+    secondaryContainer = Teal200,
+    onSecondaryContainer = Black,
+    tertiary = Purple200,
+    onTertiary = Black,
+    tertiaryContainer = Purple100,
+    onTertiaryContainer = Black,
+    background = Color(0xFFE3F2FD),
+    onBackground = Blue700,
+    surface = White,
+    onSurface = Blue700,
+    error = ErrorRed,
+    onError = White,
+    outline = Blue300,
+    surfaceVariant = Blue100,
+    inverseOnSurface = White,
+    onErrorContainer = White,
+    onSurfaceVariant = Blue700,
+    errorContainer = Blue100,
+    inversePrimary = Blue300,
+    inverseSurface = Color(0xFFFAFAFA),
+    outlineVariant = Blue200,
+    scrim = Color(0x99000000),
+    surfaceTint = Blue500,
+)
+
+// 🔵 BLUE DARK THEME
+private val BlueDarkColorScheme = darkColorScheme(
+    primary = Blue200,
+    onPrimary = Black,
+    primaryContainer = Blue700,
+    onPrimaryContainer = White,
+    secondary = Teal200,
+    onSecondary = Black,
+    secondaryContainer = Teal700,
+    onSecondaryContainer = White,
+    tertiary = Purple300,
+    onTertiary = Black,
+    tertiaryContainer = Purple700,
+    onTertiaryContainer = White,
+    background = Color(0xFF0D47A1),
+    onBackground = White,
+    surface = Color(0xFF102027),
+    onSurface = White,
+    error = ErrorRedDark,
+    onError = White,
+    outline = Blue300,
+    surfaceVariant = Blue200,
+    inverseOnSurface = Blue100,
+    onErrorContainer = White,
+    onSurfaceVariant = Blue100,
+    errorContainer = Red100,
+    inversePrimary = Blue300,
+    inverseSurface = Color(0xFF212121),
+    outlineVariant = Blue200,
+    scrim = Color(0x99000000),
+    surfaceTint = Blue200,
+)
+
+
+// 🟣 PURPLE LIGHT THEME
+private val PurpleLightColorScheme = lightColorScheme(
+    primary = Purple500,
+    onPrimary = White,
+    primaryContainer = Purple100,
+    onPrimaryContainer = Purple700,
+    secondary = Pink200,
+    onSecondary = Black,
+    secondaryContainer = Pink100,
+    onSecondaryContainer = Black,
+    tertiary = Blue200,
+    onTertiary = Black,
+    tertiaryContainer = Blue100,
+    onTertiaryContainer = Black,
+    background = Color(0xFFF3E5F5),
+    onBackground = Purple700,
+    surface = White,
+    onSurface = Purple700,
+    error = ErrorRed,
+    onError = White,
+    outline = Purple300,
+    surfaceVariant = Purple100,
+    inverseOnSurface = White,
+    onErrorContainer = White,
+    onSurfaceVariant = Purple700,
+    errorContainer = Red100,
+    inversePrimary = Purple300,
+    inverseSurface = Color(0xFFFAFAFA),
+    outlineVariant = Purple200,
+    scrim = Color(0x99000000),
+    surfaceTint = Purple500,
+)
+
+// 🟣 PURPLE DARK THEME
+private val PurpleDarkColorScheme = darkColorScheme(
+    primary = Purple200,
+    onPrimary = Black,
+    primaryContainer = Purple700,
+    onPrimaryContainer = White,
+    secondary = Pink200,
+    onSecondary = Black,
+    secondaryContainer = Pink700,
+    onSecondaryContainer = White,
+    tertiary = Blue300,
+    onTertiary = Black,
+    tertiaryContainer = Blue700,
+    onTertiaryContainer = White,
+    background = Color(0xFF4A148C),
+    onBackground = White,
+    surface = Color(0xFF1A237E),
+    onSurface = White,
+    error = ErrorRedDark,
+    onError = White,
+    outline = Purple300,
+    surfaceVariant = Purple200,
+    inverseOnSurface = Purple100,
+    onErrorContainer = White,
+    onSurfaceVariant = Purple100,
+    errorContainer = Red100,
+    inversePrimary = Purple300,
+    inverseSurface = Color(0xFF212121),
+    outlineVariant = Purple200,
+    scrim = Color(0x99000000),
+    surfaceTint = Purple200,
+)
+
+val mainThemes = listOf(YellowColorScheme, GreenLightColorScheme,
+    RedLightColorScheme, BlueLightColorScheme, PurpleLightColorScheme)
+
 enum class AppTheme {
-    LIGHT,
-    DARK,
     YELLOW_LIGHT,
+    YELLOW_DARK,
+    GREEN_LIGHT,
+    GREEN_DARK,
+    RED_LIGHT,
+    RED_DARK,
+    BLUE_LIGHT,
+    BLUE_DARK,
+    PURPLE_LIGHT,
+    PURPLE_DARK,
 }
 
 @Composable
 fun TasksTheme(
-    theme: AppTheme = AppTheme.LIGHT,
+    theme: AppTheme = AppTheme.YELLOW_LIGHT,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when(theme) {
-        AppTheme.DARK -> DarkColorScheme
-        AppTheme.LIGHT -> LightColorScheme
+    val colorScheme = when (theme) {
         AppTheme.YELLOW_LIGHT -> YellowColorScheme
+        AppTheme.YELLOW_DARK -> YellowDarkColorScheme
+        AppTheme.GREEN_LIGHT -> GreenLightColorScheme
+        AppTheme.GREEN_DARK -> GreenDarkColorScheme
+        AppTheme.RED_LIGHT -> RedLightColorScheme
+        AppTheme.RED_DARK -> RedDarkColorScheme
+        AppTheme.BLUE_LIGHT -> BlueLightColorScheme
+        AppTheme.BLUE_DARK -> BlueDarkColorScheme
+        AppTheme.PURPLE_LIGHT -> PurpleLightColorScheme
+        AppTheme.PURPLE_DARK -> PurpleDarkColorScheme
     }
 
     MaterialTheme(

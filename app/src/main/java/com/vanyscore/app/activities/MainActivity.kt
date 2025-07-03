@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TasksTheme(
-                theme = AppTheme.YELLOW_LIGHT
+                theme = AppTheme.PURPLE_LIGHT
             ) {
                 App()
             }
