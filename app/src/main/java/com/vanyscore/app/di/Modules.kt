@@ -2,7 +2,10 @@ package com.vanyscore.app.di
 
 import android.content.Context
 import androidx.room.Room
+import com.vanyscore.app.data.AppStorage
+import com.vanyscore.app.data.IAppStorage
 import com.vanyscore.app.room.AppDatabase
+import com.vanyscore.app.viewmodel.AppViewModel
 import com.vanyscore.notes.data.INoteRepo
 import com.vanyscore.notes.data.NoteRepoRoom
 import com.vanyscore.tasks.data.ITaskRepo
@@ -10,7 +13,11 @@ import com.vanyscore.tasks.data.TaskRepoRoom
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import java.io.File
 
@@ -52,5 +59,13 @@ class Modules {
         return TaskRepoRoom(
             database.tasksDao()
         )
+    }
+
+    @Provides
+    fun appStorage(
+        @ApplicationContext
+        context: Context
+    ): IAppStorage {
+        return AppStorage(context)
     }
 }

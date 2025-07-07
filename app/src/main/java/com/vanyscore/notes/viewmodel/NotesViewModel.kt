@@ -2,9 +2,9 @@ package com.vanyscore.notes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vanyscore.app.AppState
 import com.vanyscore.app.domain.Event
 import com.vanyscore.app.domain.EventBus
+import com.vanyscore.app.viewmodel.AppViewModel
 import com.vanyscore.notes.data.INoteRepo
 import com.vanyscore.notes.domain.Note
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,8 @@ data class NotesState(
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val repo: INoteRepo
+    private val repo: INoteRepo,
+    private val appViewModel: AppViewModel
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(NotesState())
@@ -40,7 +41,7 @@ class NotesViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            AppState.source.collect { appState ->
+            appViewModel.state.collect { appState ->
                 _currentDate = appState.date
                 refresh()
             }

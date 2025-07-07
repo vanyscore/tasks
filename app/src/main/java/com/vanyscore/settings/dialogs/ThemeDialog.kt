@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.vanyscore.app.AppState
+import com.vanyscore.app.theme.AppTheme
 import com.vanyscore.app.theme.lightThemes
 
 @Composable
-fun ThemeDialog(onDismiss: () -> Unit) {
+fun ThemeDialog(onSelect: (AppTheme) -> Unit, onDismiss: () -> Unit, ) {
     return Dialog(onDismissRequest = onDismiss) {
         val themes = lightThemes
         Box(
@@ -45,10 +45,7 @@ fun ThemeDialog(onDismiss: () -> Unit) {
                                     .clip(CircleShape)
                                     .background(theme.primary)
                                     .clickable {
-                                        val appState = AppState.source.value
-                                        AppState.updateState(appState.copy(
-                                            theme = themeType
-                                        ))
+                                        onSelect(themeType)
                                         onDismiss.invoke()
                                     }
                             )

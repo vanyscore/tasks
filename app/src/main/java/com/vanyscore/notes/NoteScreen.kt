@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,11 +32,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.vanyscore.app.AppState
 import com.vanyscore.app.composes.BackButton
 import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.ui.AttachmentsControl
 import com.vanyscore.app.ui.noIndicationClickable
+import com.vanyscore.app.viewmodel.AppViewModel
 import com.vanyscore.notes.viewmodel.NoteViewModel
 import com.vanyscore.tasks.R
 
@@ -47,7 +45,8 @@ import com.vanyscore.tasks.R
 fun NoteScreen(
     noteId: Int?,
 ) {
-    val appState = AppState.source.collectAsState()
+    val appViewModel = hiltViewModel<AppViewModel>()
+    val appState = appViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val isViewModelInit = remember {
         mutableStateOf(false)

@@ -2,8 +2,8 @@ package com.vanyscore.tasks.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vanyscore.app.AppState
 import com.vanyscore.app.utils.DateUtils
+import com.vanyscore.app.viewmodel.AppViewModel
 import com.vanyscore.tasks.data.ITaskRepo
 import com.vanyscore.tasks.data.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TaskViewModel @Inject constructor(
-    private val repository: ITaskRepo
+    private val repository: ITaskRepo,
+    private val appViewModel: AppViewModel
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainViewState())
@@ -28,7 +29,7 @@ class TaskViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            AppState.source.collect { appState ->
+            appViewModel.state.collect { appState ->
                 _state.update {
                     _state.value.copy(
                         selectedDate = appState.date

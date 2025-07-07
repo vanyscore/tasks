@@ -34,9 +34,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vanyscore.app.AppState
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.navigation.openSettings
+import com.vanyscore.app.viewmodel.AppViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -104,8 +105,9 @@ fun SettingsButton(isVisible: Boolean = true) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerDialogBuild(dialogState: MutableState<Boolean>) {
-    val state = AppState.source.collectAsState()
-    val appState = state.value
+    val appViewModel = hiltViewModel<AppViewModel>()
+    val appState = appViewModel.state
+    val state = appState.collectAsState()
     val datePickerState = rememberDatePickerState(
         initialDisplayedMonthMillis = state.value.date.time,
     )
@@ -117,11 +119,9 @@ fun DatePickerDialogBuild(dialogState: MutableState<Boolean>) {
             val selectedDateInMillis = datePickerState.selectedDateMillis
             if (selectedDateInMillis != null) {
                 dialogState.value = false
-                AppState.updateState(appState.copy(
-                    date = Calendar.getInstance().apply {
-                        timeInMillis = selectedDateInMillis
-                    }.time
-                ))
+                appViewModel.updateDate(Calendar.getInstance().apply {
+                    timeInMillis = selectedDateInMillis
+                }.time)
             }
         },
     ) {
@@ -134,7 +134,8 @@ fun DatePickerDialogBuild(dialogState: MutableState<Boolean>) {
 
 @Composable
 fun DateControl() {
-    val state = AppState.source.collectAsState()
+    val appViewModel = hiltViewModel<AppViewModel>()
+    val state = appViewModel.state.collectAsState()
     val currentDate = state.value.date
     val textStyle = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
     val yearFormat = remember {
@@ -157,17 +158,15 @@ fun DateControl() {
 
 @Composable
 private fun PrevDateButton() {
-    val appState = AppState.source.collectAsState()
-    val state = appState.value
+    val appViewModel = hiltViewModel<AppViewModel>()
+    val appState = appViewModel.state.collectAsState()
     val currentDate = appState.value.date
     IconButton(
         onClick = {
-            AppState.updateState(state.copy(
-                date = Calendar.getInstance().apply {
-                    time = currentDate
-                    add(Calendar.DAY_OF_MONTH, -1)
-                }.time
-            ))
+            appViewModel.updateDate(Calendar.getInstance().apply {
+                time = currentDate
+                add(Calendar.DAY_OF_MONTH, -1)
+            }.time)
         },
     ) {
         Icon(
@@ -178,17 +177,16 @@ private fun PrevDateButton() {
 
 @Composable
 private fun NextDateButton() {
-    val appState = AppState.source.collectAsState()
+    val appViewModel = hiltViewModel<AppViewModel>()
+    val appState = appViewModel.state.collectAsState()
     val state = appState.value
     val currentDate = appState.value.date
     IconButton(
         onClick = {
-            AppState.updateState(state.copy(
-                date = Calendar.getInstance().apply {
-                    time = currentDate
-                    add(Calendar.DAY_OF_MONTH, 1)
-                }.time
-            ))
+            appViewModel.updateDate(Calendar.getInstance().apply {
+                time = currentDate
+                add(Calendar.DAY_OF_MONTH, 1)
+            }.time)
         }
     ) {
         Icon(
