@@ -13,13 +13,11 @@ import com.vanyscore.tasks.data.TaskRepoRoom
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import java.io.File
+import javax.inject.Singleton
 
 
 @Module
@@ -34,6 +32,18 @@ class DatabaseModule {
             context = context,
             AppDatabase::class.java, "tn_database"
         ).build()
+    }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class ViewModelModules {
+    @Provides
+    @Singleton
+    fun appViewModel(
+        appStorage: IAppStorage
+    ): AppViewModel {
+        return AppViewModel(appStorage)
     }
 }
 

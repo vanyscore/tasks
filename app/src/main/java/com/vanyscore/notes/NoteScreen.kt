@@ -37,6 +37,7 @@ import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.ui.AttachmentsControl
 import com.vanyscore.app.ui.noIndicationClickable
 import com.vanyscore.app.viewmodel.AppViewModel
+import com.vanyscore.app.viewmodel.LocalAppViewModel
 import com.vanyscore.notes.viewmodel.NoteViewModel
 import com.vanyscore.tasks.R
 
@@ -45,7 +46,7 @@ import com.vanyscore.tasks.R
 fun NoteScreen(
     noteId: Int?,
 ) {
-    val appViewModel = hiltViewModel<AppViewModel>()
+    val appViewModel = LocalAppViewModel.current
     val appState = appViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val isViewModelInit = remember {

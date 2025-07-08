@@ -46,6 +46,7 @@ import com.vanyscore.app.ui.DayPickerBar
 import com.vanyscore.app.ui.DayStatus
 import com.vanyscore.app.utils.DateUtils
 import com.vanyscore.app.viewmodel.AppViewModel
+import com.vanyscore.app.viewmodel.LocalAppViewModel
 import com.vanyscore.tasks.R
 import com.vanyscore.tasks.data.Task
 import com.vanyscore.tasks.ui.dialogs.EditTaskDialog
@@ -86,7 +87,7 @@ fun TasksPage() {
             closeDialog()
         }
     }
-    val appViewModel = hiltViewModel<AppViewModel>()
+    val appViewModel = LocalAppViewModel.current
 
     return Scaffold(
         floatingActionButton = {

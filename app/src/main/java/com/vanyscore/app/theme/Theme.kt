@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vanyscore.app.viewmodel.AppViewModel
+import com.vanyscore.app.viewmodel.LocalAppViewModel
 
 // Предположим, что вы объявили эти цвета в другом файле (Color.kt)
 private val YellowColorScheme = lightColorScheme(
@@ -375,7 +376,7 @@ enum class AppTheme {
 fun ThemeProvider(
     content: @Composable () -> Unit
 ) {
-    val appViewModel = hiltViewModel<AppViewModel>()
+    val appViewModel = LocalAppViewModel.current
     val themeState = appViewModel.state.collectAsState()
     val theme = themeState.value.theme
     val colorScheme = theme.toColorScheme()

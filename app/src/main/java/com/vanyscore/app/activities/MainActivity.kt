@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.vanyscore.app.navigation.App
 import com.vanyscore.app.theme.ThemeProvider
+import com.vanyscore.app.viewmodel.AppViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,8 +15,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ThemeProvider {
-                App()
+            AppViewModelProvider {
+                ThemeProvider {
+                    App()
+                }
             }
         }
     }

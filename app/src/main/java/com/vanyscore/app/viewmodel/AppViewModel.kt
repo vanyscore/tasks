@@ -1,5 +1,9 @@
 package com.vanyscore.app.viewmodel
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vanyscore.app.data.IAppStorage
@@ -16,6 +20,18 @@ data class AppState(
     val date: Date,
     val theme: AppTheme = AppTheme.YELLOW_LIGHT,
 )
+
+val LocalAppViewModel = staticCompositionLocalOf<AppViewModel> {
+    error("No appView model provides.")
+}
+
+@Composable
+fun AppViewModelProvider(content: @Composable () -> Unit) {
+    return CompositionLocalProvider(
+        LocalAppViewModel provides hiltViewModel<AppViewModel>(),
+        content
+    )
+}
 
 @HiltViewModel
 class AppViewModel @Inject constructor(

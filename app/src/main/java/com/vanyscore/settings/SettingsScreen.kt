@@ -25,6 +25,7 @@ import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.ui.noIndicationClickable
 import com.vanyscore.settings.dialogs.ThemeDialog
 import com.vanyscore.app.viewmodel.AppViewModel
+import com.vanyscore.app.viewmodel.LocalAppViewModel
 import com.vanyscore.tasks.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +34,7 @@ fun SettingsScreen() {
     val navController = LocalNavController.current
     val isThemeDialogShow = remember { mutableStateOf(false) }
     val isThemeDialogShowOn = isThemeDialogShow.value
-    val viewModel = hiltViewModel<AppViewModel>()
+    val viewModel = LocalAppViewModel.current
     return Scaffold(
         topBar = {
             TopAppBar(

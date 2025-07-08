@@ -38,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.navigation.openSettings
 import com.vanyscore.app.viewmodel.AppViewModel
+import com.vanyscore.app.viewmodel.LocalAppViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -105,7 +106,7 @@ fun SettingsButton(isVisible: Boolean = true) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerDialogBuild(dialogState: MutableState<Boolean>) {
-    val appViewModel = hiltViewModel<AppViewModel>()
+    val appViewModel = LocalAppViewModel.current
     val appState = appViewModel.state
     val state = appState.collectAsState()
     val datePickerState = rememberDatePickerState(
@@ -134,7 +135,7 @@ fun DatePickerDialogBuild(dialogState: MutableState<Boolean>) {
 
 @Composable
 fun DateControl() {
-    val appViewModel = hiltViewModel<AppViewModel>()
+    val appViewModel = LocalAppViewModel.current
     val state = appViewModel.state.collectAsState()
     val currentDate = state.value.date
     val textStyle = TextStyle(fontSize = 16.sp, color = MaterialTheme.colorScheme.onPrimary)
@@ -158,7 +159,7 @@ fun DateControl() {
 
 @Composable
 private fun PrevDateButton() {
-    val appViewModel = hiltViewModel<AppViewModel>()
+    val appViewModel = LocalAppViewModel.current
     val appState = appViewModel.state.collectAsState()
     val currentDate = appState.value.date
     IconButton(
@@ -177,7 +178,7 @@ private fun PrevDateButton() {
 
 @Composable
 private fun NextDateButton() {
-    val appViewModel = hiltViewModel<AppViewModel>()
+    val appViewModel = LocalAppViewModel.current
     val appState = appViewModel.state.collectAsState()
     val state = appState.value
     val currentDate = appState.value.date
