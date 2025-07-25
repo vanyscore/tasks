@@ -20,6 +20,7 @@ import javax.inject.Inject
 data class NoteState(
     val note: Note,
     val canClose: Boolean = false,
+    val isEdit: Boolean = true,
 )
 
 @HiltViewModel
@@ -37,11 +38,14 @@ class NoteViewModel @Inject constructor(
     private fun refresh() {
         val noteId = this.noteId ?: return
         viewModelScope.launch {
-            val note = repo.getNote(noteId) ?: return@launch
-            _state.update {
-                it.copy(
-                    note = note
-                )
+            val note = repo.getNote(noteId)
+            if (note != null) {
+                _state.update {
+                    it.copy(
+                        note = note,
+                        isEdit = false
+                    )
+                }
             }
         }
     }
@@ -129,6 +133,15 @@ class NoteViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun switchMode() {
+        val isEdit = !_state.value.isEdit
+        _state.update {
+            it.copy(
+                isEdit = isEdit
+            )
         }
     }
 }

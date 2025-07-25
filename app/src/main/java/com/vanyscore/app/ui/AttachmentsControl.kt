@@ -44,6 +44,7 @@ enum class ControlType {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AttachmentsControl(
+    isEnabled: Boolean = true,
     controlType: ControlType = ControlType.ROW,
     attachments: List<Uri> = emptyList(),
     onAttachmentAdd: ((uri: Uri) -> Unit)? = null,
@@ -72,28 +73,30 @@ fun AttachmentsControl(
                 stringResource(R.string.attachments)
             )
             Row {
-                if (selectedAttachments.isNotEmpty()) {
+                if (isEnabled) {
+                    if (selectedAttachments.isNotEmpty()) {
+                        IconButton(
+                            onClick = {
+                                selectedAttachments.forEach {
+                                    onAttachmentRemove?.invoke(it)
+                                }
+                                selectedAttachments.clear()
+                            }
+                        ) {
+                            Icon(
+                                Icons.Default.Delete, "add_attachment"
+                            )
+                        }
+                    }
                     IconButton(
                         onClick = {
-                            selectedAttachments.forEach {
-                                onAttachmentRemove?.invoke(it)
-                            }
-                            selectedAttachments.clear()
+                            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                         }
                     ) {
                         Icon(
-                            Icons.Default.Delete, "add_attachment"
+                            Icons.Default.Add, "add_attachment"
                         )
                     }
-                }
-                IconButton(
-                    onClick = {
-                        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                    }
-                ) {
-                    Icon(
-                        Icons.Default.Add, "add_attachment"
-                    )
                 }
             }
         }
@@ -125,22 +128,26 @@ fun AttachmentsControl(
                         )
                         .combinedClickable(
                             onClick = {
-                                if (selectedAttachments.isNotEmpty()) {
-                                    val foundIndex = selectedAttachments.indexOfFirst {
-                                        it === attachment
-                                    }
-                                    if (foundIndex != -1) {
-                                        selectedAttachments.removeAt(foundIndex)
-                                    } else {
-                                        selectedAttachments.add(attachment)
+                                if (isEnabled) {
+                                    if (selectedAttachments.isNotEmpty()) {
+                                        val foundIndex = selectedAttachments.indexOfFirst {
+                                            it === attachment
+                                        }
+                                        if (foundIndex != -1) {
+                                            selectedAttachments.removeAt(foundIndex)
+                                        } else {
+                                            selectedAttachments.add(attachment)
+                                        }
                                     }
                                 }
                             },
                             onLongClick = {
-                                if (selectedAttachments.singleOrNull {
-                                    it === attachment
-                                } == null) {
-                                    selectedAttachments.add(attachment)
+                                if (isEnabled) {
+                                    if (selectedAttachments.singleOrNull {
+                                            it === attachment
+                                        } == null) {
+                                        selectedAttachments.add(attachment)
+                                    }
                                 }
                             }
                         ),

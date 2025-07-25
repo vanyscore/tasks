@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,7 +41,6 @@ import com.vanyscore.app.composes.BackButton
 import com.vanyscore.app.navigation.LocalNavController
 import com.vanyscore.app.ui.AttachmentsControl
 import com.vanyscore.app.ui.noIndicationClickable
-import com.vanyscore.app.viewmodel.AppViewModel
 import com.vanyscore.app.viewmodel.LocalAppViewModel
 import com.vanyscore.notes.viewmodel.NoteViewModel
 import com.vanyscore.tasks.R
@@ -64,7 +66,7 @@ fun NoteScreen(
     val state = viewModel.state.collectAsState()
     val note = state.value.note
     if (state.value.canClose) {
-        navController?.navigateUp()
+        navController.navigateUp()
     }
     val focusManager = LocalFocusManager.current
     return Scaffold(
@@ -93,10 +95,12 @@ fun NoteScreen(
                     if (note.id != null) {
                         RemoveNoteButton()
                     }
+                    EditModeButton()
                 }
             )
         },
         bottomBar = {
+            if (!state.value.isEdit) return@Scaffold
             BottomAppBar(
                 containerColor = Color.White
             ) {
@@ -135,6 +139,7 @@ fun NoteScreen(
                 TextField(
                     note.title,
                     singleLine = true,
+                    enabled = state.value.isEdit,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done
@@ -164,6 +169,7 @@ fun NoteScreen(
             item {
                 TextField(
                     note.description,
+                    enabled = state.value.isEdit,
                     modifier = Modifier.fillMaxWidth(),
                     label = {
                         Text(stringResource(R.string.description))
@@ -193,6 +199,7 @@ fun NoteScreen(
                             note = note,
                         )
                     },
+                    isEnabled = state.value.isEdit,
                     onAttachmentRemove = { uri ->
                         viewModel.removeAttachment(uri)
                     }
@@ -215,6 +222,26 @@ fun RemoveNoteButton() {
         Icon(
             ImageVector.vectorResource(R.drawable.ic_trash),
             "remove",
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+fun EditModeButton() {
+    val viewModel = hiltViewModel<NoteViewModel>()
+    val state = viewModel.state.collectAsState().value
+    val note = state.note
+    val isEdit = state.isEdit
+    if (note.id == null) return
+    IconButton(
+        onClick = {
+            viewModel.switchMode()
+        }
+    ) {
+        Icon(
+            if (isEdit) Icons.Default.Close else Icons.Default.Edit,
+            "edit",
             tint = MaterialTheme.colorScheme.onPrimary
         )
     }
