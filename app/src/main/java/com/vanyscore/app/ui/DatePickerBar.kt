@@ -121,9 +121,7 @@ fun DatePickerDialogBuild(dialogState: MutableState<Boolean>) {
         },
     ) {
         val currDateInMillis = Calendar.getInstance().timeInMillis
-        DatePicker(state = datePickerState, dateValidator = { time ->
-            time <= currDateInMillis
-        })
+        AppDatePicker()
     }
 }
 

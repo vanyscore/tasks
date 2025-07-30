@@ -31,6 +31,13 @@ object DateUtils {
         return isDateEqualsByDay(calendar.time, date)
     }
 
+    fun isCurrentMonth(date: Date): Boolean {
+        val calendar = Calendar.getInstance()
+        return Calendar.getInstance().apply {
+            time = date
+        }.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)
+    }
+
     fun isDateEqualsByDay(date1: Date, date2: Date): Boolean {
         val c1 = Calendar.getInstance().apply {
             time = date1
