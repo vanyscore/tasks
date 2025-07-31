@@ -1,6 +1,7 @@
 package com.vanyscore.app.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,10 +36,14 @@ import java.util.Locale
 fun AppDatePicker(
     initDateMillis: Long? = Calendar.getInstance().timeInMillis,
     selectedMillis: List<Long> = emptyList(),
-    maxDateMillis: Long? = null,
 ) {
-    val currentDt = remember { mutableStateOf(Calendar.getInstance().time) }
-    Surface(
+    val currentDt = remember { mutableStateOf(Calendar.getInstance().apply {
+        if (initDateMillis != null) {
+            timeInMillis = initDateMillis
+        }
+    }.time) }
+    val initDt = Calendar.getInstance().time
+        Surface(
         modifier = Modifier.padding(16.dp),
         shape = RoundedCornerShape(16.dp),
     ) {
@@ -46,7 +51,7 @@ fun AppDatePicker(
             modifier = Modifier.fillMaxWidth()
         ) {
             MonthSelect(dt = currentDt)
-            Days(dt = currentDt)
+            Days(currentDt = currentDt, initDt = initDt, selectedMillis)
         }
     }
 }
@@ -86,13 +91,9 @@ fun MonthSelect(dt: MutableState<Date>) {
 }
 
 @Composable
-fun Days(dt: MutableState<Date>) {
-    val days = Calendar.getInstance().apply {
-        time = dt.value
-    }.getMaximum(Calendar.DAY_OF_MONTH)
-    val rows = days / 7
+fun Days(currentDt: MutableState<Date>, initDt: Date, selectedMillis: List<Long>) {
     val firstDt = Calendar.getInstance().apply {
-        time = dt.value
+        time = currentDt.value
     }
     while (firstDt.get(Calendar.DAY_OF_MONTH) != 1) {
         firstDt.set(Calendar.DAY_OF_YEAR, firstDt.get(Calendar.DAY_OF_YEAR) - 1)
@@ -102,6 +103,11 @@ fun Days(dt: MutableState<Date>) {
     }
     val firstDtTime = firstDt.time
     val formatter = SimpleDateFormat("dd", Locale.getDefault())
+    val selectedDates = selectedMillis.map {
+        Calendar.getInstance().apply {
+            timeInMillis = it
+        }.time
+    }
     return Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -117,20 +123,31 @@ fun Days(dt: MutableState<Date>) {
                         time = firstDtTime
                         set(Calendar.DAY_OF_YEAR, get(Calendar.DAY_OF_YEAR) + (i * 7 + k))
                     }.time
-                    val isCurrentDt = DateUtils.isDateEqualsByDay(showDt, dt.value)
+                    val isCurrentDt = DateUtils.isDateEqualsByDay(showDt, initDt)
                     val isCurrentMonth = Calendar.getInstance().apply {
                         time = showDt
                     }.get(Calendar.MONTH) == Calendar.getInstance().apply {
-                        time = dt.value
+                        time = currentDt.value
                     }.get(Calendar.MONTH)
+                    var isSelected = false
+                    selectedDates.forEach {  selDt ->
+                        if (DateUtils.isDateEqualsByDay(selDt, showDt)) {
+                            isSelected = true
+                        }
+                    }
+                    val color = if (isCurrentDt) MaterialTheme.colorScheme.primary
+                    else if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.surface
                     Surface(
-                        shape = RoundedCornerShape(16.dp),
-                        modifier = Modifier.padding(4.dp),
-                        color = if (isCurrentDt) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+                        shape = CircleShape,
+                        color = color
                     ) {
-                        Text(formatter.format(showDt), style = TextStyle(
-                            color = if (isCurrentMonth) Color.Unspecified else MaterialTheme.colorScheme.scrim
-                        ))
+                        Box(
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+                            Text(formatter.format(showDt), style = TextStyle(
+                                color = if (isCurrentMonth) Color.Unspecified else MaterialTheme.colorScheme.scrim
+                            ))
+                        }
                     }
                 }
             }
