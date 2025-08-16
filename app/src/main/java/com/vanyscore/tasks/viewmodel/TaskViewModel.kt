@@ -2,6 +2,7 @@ package com.vanyscore.tasks.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vanyscore.app.ui.DatesSelectedChecker
 import com.vanyscore.app.utils.DateUtils
 import com.vanyscore.app.viewmodel.AppViewModel
 import com.vanyscore.tasks.data.ITaskRepo
@@ -20,7 +21,7 @@ import javax.inject.Inject
 class TaskViewModel @Inject constructor(
     private val repository: ITaskRepo,
     private val appViewModel: AppViewModel
-) : ViewModel() {
+) : ViewModel(), DatesSelectedChecker {
 
     private val _state = MutableStateFlow(MainViewState())
     val state: StateFlow<MainViewState>
@@ -92,6 +93,14 @@ class TaskViewModel @Inject constructor(
             repository.deleteTask(task)
             refresh()
         }
+    }
+
+    override suspend fun getSelectedDatesAsMillis(
+        startDate: Date,
+        endDate: Date
+    ): List<Long> {
+        val tasks = repository.getTasks(startDate, endDate)
+        return tasks.map { it.date.time }
     }
 }
 

@@ -88,7 +88,9 @@ fun TasksPage() {
     val appViewModel = LocalAppViewModel.current
 
     return Scaffold(
-        topBar = { DatePickerBar() },
+        topBar = { DatePickerBar(
+            datesSelectedChecker = viewModel
+        ) },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 dialogState.value = true

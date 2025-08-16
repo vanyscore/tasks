@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -143,7 +144,7 @@ fun Days(currentDt: MutableState<Date>, initDt: Date, onSelect: (Long) -> Unit, 
     }
     val firstDtTime = firstDt.time
     val formatter = SimpleDateFormat("dd", Locale.getDefault())
-    val selectedMillis = remember { mutableStateOf(mutableListOf<Long>()) }
+    val selectedMillis = remember { mutableStateListOf<Long>() }
     val scope = rememberCoroutineScope()
     LaunchedEffect(currentDt.value) {
         scope.launch {
@@ -162,10 +163,13 @@ fun Days(currentDt: MutableState<Date>, initDt: Date, onSelect: (Long) -> Unit, 
             Log.d("picker", "get from ${startDt.time}, to ${endDt.time}")
             val selectedDatesAsMillis = datesSelectedChecker?.getSelectedDatesAsMillis(startDt.time, endDt.time)?.toMutableList()
             Log.d("picker", "dates: $selectedDatesAsMillis")
-            selectedMillis.value = selectedDatesAsMillis ?: mutableListOf()
+            selectedMillis.apply {
+                clear()
+                addAll(selectedDatesAsMillis?.toList() ?: emptyList())
+            }
         }
     }
-    val selectedDates = selectedMillis.value.map {
+    val selectedDates = selectedMillis.map {
         Calendar.getInstance().apply {
             timeInMillis = it
         }.time
