@@ -1,5 +1,6 @@
 package com.vanyscore.app.ui
 
+import android.os.Bundle
 import android.util.Log
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import com.vanyscore.app.navigation.AppRoutes
 
 private class AppRoute(
@@ -35,18 +37,18 @@ fun AppBottomBar(
         AppRoute(title = "Заметки", icon = Icons.Default.Edit, routePath = AppRoutes.NOTES_SECTIONS),
         AppRoute(title = "Задачи", icon = Icons.Default.Build, routePath = AppRoutes.TASKS),
     )
-    val routeState = remember { mutableStateOf(AppRoutes.NOTES_SECTIONS) }
-    val currentRoute = routeState.value
-    Log.d("nav", "curr route: $currentRoute, ${routes.map { it.routePath }}")
+    val navRouteState = remember { mutableStateOf(navController.currentDestination?.route) }
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        navRouteState.value = destination.route
+    }
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primary,
         tonalElevation = 2.dp,
         modifier = Modifier.height(116.dp)
     ) {
         routes.forEach { route ->
-            NavigationBarItem(currentRoute == route.routePath, onClick = {
+            NavigationBarItem(navRouteState.value == route.routePath, onClick = {
                 navController.navigate(route.routePath)
-                routeState.value = route.routePath
             }, icon = {
                 Icon(
                     route.icon,
