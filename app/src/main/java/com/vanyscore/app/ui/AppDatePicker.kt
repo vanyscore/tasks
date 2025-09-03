@@ -160,9 +160,7 @@ fun Days(currentDt: MutableState<Date>, initDt: Date, onSelect: (Long) -> Unit, 
             while (endDt.get(Calendar.DAY_OF_MONTH) != endDt.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                 endDt.set(Calendar.DAY_OF_YEAR, endDt.get(Calendar.DAY_OF_YEAR) + 1)
             }
-            Log.d("picker", "get from ${startDt.time}, to ${endDt.time}")
             val selectedDatesAsMillis = datesSelectedChecker?.getSelectedDatesAsMillis(startDt.time, endDt.time)?.toMutableList()
-            Log.d("picker", "dates: $selectedDatesAsMillis")
             selectedMillis.apply {
                 clear()
                 addAll(selectedDatesAsMillis?.toList() ?: emptyList())

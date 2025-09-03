@@ -44,6 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.vanyscore.app.ui.DatePickerBar
 import com.vanyscore.app.ui.DayPickerBar
 import com.vanyscore.app.ui.DayStatus
+import com.vanyscore.app.ui.DismissBackground
 import com.vanyscore.app.utils.DateUtils
 import com.vanyscore.app.viewmodel.LocalAppViewModel
 import com.vanyscore.tasks.R
@@ -211,24 +212,7 @@ fun TaskItem(
     return SwipeToDismiss(
         state = swipeState,
         background = {
-            Box(
-                modifier = Modifier
-                    .background(Color.Red)
-                    .fillMaxSize()
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxHeight(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        Icons.Filled.Delete,
-                        modifier = Modifier
-                            .padding(start = 16.dp),
-                        contentDescription = "Delete",
-                        tint = Color.White
-                    )
-                }
-            }
+            DismissBackground()
         },
         dismissContent = {
             Box(modifier = Modifier

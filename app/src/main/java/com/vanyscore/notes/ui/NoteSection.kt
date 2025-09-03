@@ -10,13 +10,20 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.unit.dp
+import com.vanyscore.app.ui.DismissBackground
 import kotlin.math.abs
 
 fun String.toColor(): Color {
@@ -37,24 +44,50 @@ fun String.toColor(): Color {
     return Color(adjustedRed, adjustedGreen, adjustedBlue)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteSection(title: String, onTap: () -> Unit) {
+fun NoteSection(
+    title: String,
+    onTap: () -> Unit,
+    onRemove: () -> Unit,
+) {
     val color = title.toColor()
-    return Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onTap()
+    val dismissState = rememberDismissState(
+        initialValue = DismissValue.Default,
+        confirmValueChange = { dismissValue ->
+            if (dismissValue == DismissValue.DismissedToEnd) {
+                onRemove()
+                true
+            } else {
+                false
             }
-    ) {
-        Box(
-            modifier = Modifier
-                .size(20.dp, 50.dp)
-                .background(color = color)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(title)
-        Spacer(modifier = Modifier.width(8.dp))
-    }
+        }
+    )
+    return SwipeToDismiss(
+        state = dismissState,
+        directions = setOf(DismissDirection.StartToEnd),
+        background = {
+            DismissBackground()
+        },
+        dismissContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+                    .clickable {
+                        onTap()
+                    }
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(20.dp, 50.dp)
+                        .background(color = color)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(title)
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+        }
+    )
 }
