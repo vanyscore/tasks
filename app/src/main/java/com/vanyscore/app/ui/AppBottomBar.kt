@@ -1,5 +1,4 @@
 package com.vanyscore.app.ui
-
 import android.os.Bundle
 import android.util.Log
 import androidx.compose.foundation.layout.height
@@ -17,11 +16,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import com.vanyscore.app.navigation.AppRoutes
+import com.vanyscore.tasks.R
 
 private class AppRoute(
     val title: String,
@@ -34,8 +35,8 @@ fun AppBottomBar(
     navController: NavController
 ) {
     val routes = listOf(
-        AppRoute(title = "Заметки", icon = Icons.Default.Edit, routePath = AppRoutes.NOTES_SECTIONS),
-        AppRoute(title = "Задачи", icon = Icons.Default.Build, routePath = AppRoutes.TASKS),
+        AppRoute(title = stringResource(R.string.notes), icon = Icons.Default.Edit, routePath = AppRoutes.NOTES_SECTIONS),
+        AppRoute(title = stringResource(R.string.tasks), icon = Icons.Default.Build, routePath = AppRoutes.TASKS),
     )
     val navRouteState = remember { mutableStateOf(navController.currentDestination?.route) }
     navController.addOnDestinationChangedListener { _, destination, _ ->

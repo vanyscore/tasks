@@ -16,10 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.vanyscore.app.theme.AppTheme
 import com.vanyscore.app.theme.AppThemeType
+import com.vanyscore.tasks.R
 
 @Composable
 fun ThemeDialog(onSelect: (AppTheme) -> Unit, onDismiss: () -> Unit, ) {
@@ -31,7 +33,7 @@ fun ThemeDialog(onSelect: (AppTheme) -> Unit, onDismiss: () -> Unit, ) {
                 .background(MaterialTheme.colorScheme.background)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("Цвет")
+                Text(stringResource(R.string.color))
                 Spacer(modifier = Modifier.height(8.dp))
                 Row {
                     themes.map { themeType ->

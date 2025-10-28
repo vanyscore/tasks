@@ -65,7 +65,7 @@ fun SettingsScreen() {
         Column(
             modifier = Modifier.padding(padding)
         ) {
-            ThemePick("Выбор темы") {
+            ThemePick(stringResource(R.string.theme_pick)) {
                 isThemeDialogShow.value = true
             }
             ThemeTypePick()
@@ -121,7 +121,7 @@ private fun ThemeTypePick() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Темная тема", style = TextStyle(
+                Text(text = stringResource(R.string.dark_theme), style = TextStyle(
                     fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.scrim
                 ))

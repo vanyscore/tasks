@@ -64,7 +64,7 @@ fun NoteSectionsScreen(
     return Scaffold(
         topBar = {
             TopAppBar(title = {
-                Text("Заметки", style = TextStyle(
+                Text(stringResource(R.string.notes), style = TextStyle(
                     color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 18.sp
                 ))
@@ -136,7 +136,7 @@ fun SectionsListEmpty(padding: PaddingValues) {
                 contentDescription = "note_sections_empty"
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Список разделов пуст", style = TextStyle(
+            Text(stringResource(R.string.notes_sections_empty), style = TextStyle(
                 fontSize = 16.sp
             ))
         }

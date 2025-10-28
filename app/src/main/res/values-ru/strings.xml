@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">TrackIt</string>
+    <string name="note">Заметка</string>
+    <string name="notes">Заметки</string>
+    <string name="new_note_section">Новый раздел</string>
+    <string name="edit_note_section">Редактировать раздел</string>
+    <string name="add">Добавить</string>
+    <string name="tasks">Задачи"</string>
+    <string name="create_task">Создать задачу</string>
+    <string name="edit_task">Редактировать задачу</string>
+    <string name="tasks_empty">Список задач пуст</string>
+    <string name="notes_sections_empty">Список разделов пуст</string>
+    <string name="notes_empty">Список заметок пуст</string>
+    <string name="created_date">Дата создания: %1$s</string>
+    <string name="edited_date">Дата редактирования: %1$s</string>
+    <string name="save">Сохранить</string>
+    <string name="title">Заголовок</string>
+    <string name="description">Описание</string>
+    <string name="create">Создать</string>
+    <string name="apply">Применить</string>
+    <string name="attachments">Вложения</string>
+    <string name="settings">Настройки</string>
+    <string name="theme_setting">Тема</string>
+    <string name="color">Цвет</string>
+    <string name="theme_pick">Выбор темы</string>
+    <string name="last_change">Последнее изменение: %s</string>
+    <string name="dark_theme">Темная тема</string>
+</resources>
