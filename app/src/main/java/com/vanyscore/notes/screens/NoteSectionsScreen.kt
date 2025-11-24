@@ -16,9 +16,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,6 +48,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.vanyscore.app.LocalInnerNavController
 import com.vanyscore.app.navigation.AppRoutes
+import com.vanyscore.app.ui.SortDropDown
 import com.vanyscore.notes.domain.NoteSection
 import com.vanyscore.notes.ui.NoteSection
 import com.vanyscore.notes.viewmodel.NoteSectionsViewModel
@@ -61,6 +65,7 @@ fun NoteSectionsScreen(
     val sectionDialogState = remember {
         mutableStateOf(NoteSectionDialogState(isVisible = false, type = NoteSectionDialogType.ADD))
     }
+    val sortState = remember { mutableStateOf(false) }
     return Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -71,6 +76,30 @@ fun NoteSectionsScreen(
             }, colors = TopAppBarDefaults .topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primary
             ), actions = {
+                IconButton(
+                    onClick = {
+                        sortState.value = true
+                    }
+                ) {
+                    Icon(
+                        Icons.Default.List,
+                        contentDescription = "sort",
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                    SortDropDown(
+                        isExpanded = sortState.value,
+                        isAscending = true,
+                        onAlphabetClick = {
+                            sortState.value = false
+                        },
+                        onDateClick = {
+                            sortState.value = false
+                        },
+                        onDismiss = {
+                            sortState.value = false
+                        }
+                    )
+                }
                 IconButton(onClick = {
                     sectionDialogState.value = sectionDialogState.value.copy(
                         section = null,
