@@ -49,6 +49,7 @@ import androidx.navigation.NavController
 import com.vanyscore.app.LocalInnerNavController
 import com.vanyscore.app.navigation.AppRoutes
 import com.vanyscore.app.ui.SortDropDown
+import com.vanyscore.app.ui.rememberSortState
 import com.vanyscore.notes.domain.NoteSection
 import com.vanyscore.notes.ui.NoteSection
 import com.vanyscore.notes.viewmodel.NoteSectionsViewModel
@@ -65,7 +66,7 @@ fun NoteSectionsScreen(
     val sectionDialogState = remember {
         mutableStateOf(NoteSectionDialogState(isVisible = false, type = NoteSectionDialogType.ADD))
     }
-    val sortState = remember { mutableStateOf(false) }
+    val sortState = rememberSortState()
     return Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -78,7 +79,9 @@ fun NoteSectionsScreen(
             ), actions = {
                 IconButton(
                     onClick = {
-                        sortState.value = true
+                        sortState.value = sortState.value.copy(
+                            isExpanded = true
+                        )
                     }
                 ) {
                     Icon(
@@ -87,17 +90,11 @@ fun NoteSectionsScreen(
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                     SortDropDown(
-                        isExpanded = sortState.value,
-                        isAscending = true,
-                        onAlphabetClick = {
-                            sortState.value = false
+                        state = sortState.value,
+                        onStateChanged = { newState ->
+                            sortState.value = newState
+                            viewModel.updateSortState(sortState.value)
                         },
-                        onDateClick = {
-                            sortState.value = false
-                        },
-                        onDismiss = {
-                            sortState.value = false
-                        }
                     )
                 }
                 IconButton(onClick = {

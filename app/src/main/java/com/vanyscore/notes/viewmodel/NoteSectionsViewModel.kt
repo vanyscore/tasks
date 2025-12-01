@@ -3,6 +3,8 @@ package com.vanyscore.notes.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vanyscore.app.ui.SortState
+import com.vanyscore.app.ui.SortType
 import com.vanyscore.notes.data.INoteRepo
 import com.vanyscore.notes.domain.NoteSection
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 data class NoteSectionsState(
     val isLoading: Boolean,
-    val sections: List<NoteSection>
+    val sections: List<NoteSection>,
 )
 
 @HiltViewModel
@@ -26,6 +28,7 @@ class NoteSectionsViewModel @Inject constructor(
         sections = mutableListOf(),
     ))
     val state = _state.asStateFlow()
+    private var sortState: SortState? = null
 
     init {
         refresh()
@@ -33,7 +36,23 @@ class NoteSectionsViewModel @Inject constructor(
 
     private fun refresh() {
         viewModelScope.launch {
-            val sections = repo.getNoteSections()
+            var sections = repo.getNoteSections()
+
+            val sortState = sortState
+            if (sortState != null) {
+                val type = sortState.sortType
+                val isAscending = sortState.isAscending
+                if (type == SortType.ALPHABET) {
+                    sections = if (isAscending) {
+                        sections.sortedBy { it.name }
+                    } else {
+                        sections.sortedByDescending { it.name }
+                    }
+                } else if (type == SortType.DATE) {
+                    // TODO: Add date to NOTE_SECTION.
+                }
+            }
+
             _state.update {
                 it.copy(
                     isLoading = false,
@@ -62,5 +81,10 @@ class NoteSectionsViewModel @Inject constructor(
             repo.deleteNoteSection(section.id)
             refresh()
         }
+    }
+
+    fun updateSortState(newState: SortState) {
+        this.sortState = newState
+        refresh()
     }
 }
